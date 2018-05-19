@@ -18,7 +18,8 @@ public interface IService extends Remote {
      */
     void addClient(IListener client) throws RemoteException;
     /**
-     * Adiciona o arquivo no buffer do cliente e servidor
+     * Adiciona o arquivo no buffer se não estiver cheio do produtor/consumidor,
+     * caso contrário o cliente fica em espera
      * 
      * @param print é a String a ser impressa no arquivo 
      *      printer1 ou printer2 pelo servidor

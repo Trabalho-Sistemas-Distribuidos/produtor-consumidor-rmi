@@ -1,6 +1,5 @@
 package server;
 
-import java.io.FileNotFoundException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
@@ -12,7 +11,7 @@ import util.Constants;
  * 
  */
 public class ServerMain {
-    public static void main(String[] args) throws FileNotFoundException {
+    public static void main(String[] args) {
         try {
             IService service = new ServerService();
             IService stub = 
