@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Formatter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import util.Constants;
 
 /**
  * Implementa os métodos de controle do Servidor
@@ -20,13 +21,13 @@ public class ServerService implements IService{
     private int bufferSize;
     
     public ServerService() {
-        bufferSize = 3; // Enunciado do trabalho buffer de tamanho 3
+        bufferSize = Constants.BUFFER_SIZE; // Enunciado do trabalho buffer de tamanho 3
         printerFiles = new File[2]; // Enunciado do trabalho 2 impressoras
         clients = new ArrayList<>();
         buffer = new ArrayList<>();
         for (int i = 0; i < printerFiles.length; i++) {
             String path = "printers" + File.separator + "printer" + i + ".txt";
-            File f = new File(path);
+            printerFiles[i] = new File(path);
         }
     }
     
