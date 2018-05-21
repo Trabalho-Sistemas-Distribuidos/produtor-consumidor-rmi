@@ -56,7 +56,6 @@ public class Buffer {
         } catch (InterruptedException ex) {
             Logger.getLogger(Buffer.class.getName()).log(Level.SEVERE, null, ex);
         }
-        System.out.println("String: \"" + aux + "\" consumida");
         return aux;
     }
 }
