@@ -1,30 +1,62 @@
 package util;
 
-
 import java.util.ArrayList;
-
-import util.Constantes;
-
-import java.lang.IllegalStateException;
-
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Buffer {
-	static private ArrayList<String> buffer;
-	
-	public static synchronized int put(String str){
-		if(buffer.size() == Constantes.BUFFER_SIZE){
-			return 1; //error
-		}
-		buffer.add(str);
-		return 0; //   10/10
-	}
-	
-	public static synchronized String get() throws IllegalStateException {
-		if(buffer.size()==0){
-			throw new IllegalStateException();
-		}
-		String aux = buffer.get(0);
-		buffer.remove(0);
-		return aux;
-	}
+    static private ArrayList<String> buffer;
+    
+    /** Inicializa o buffer do produtor/consumidor com 
+     * {@link #Constants.BUFFER_SIZE }
+     */
+    public Buffer(){
+        buffer = new ArrayList<>(Constants.BUFFER_SIZE);
+    }
+
+    /**
+     * Coloca string no Buffer(Produz) se o buffer não estiver cheio,
+     * caso contrário fica em espera
+     * 
+     * @param str é a string a ser inserida
+     * 
+     */
+    public synchronized void put(String str){
+        try {
+            if (buffer.size() == Constants.BUFFER_SIZE) {
+                this.wait();
+            }
+
+            buffer.add(str);
+            this.notifyAll();
+
+            System.out.println("String: \"" + str + "\" produzida");
+        } catch (InterruptedException ex) {
+            Logger.getLogger(Buffer.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    /**
+     * Tira string do Buffer(Consome) se o buffer não estiver vazio,
+     * caso contrário fica em espera
+     * 
+     * @return string consumida
+     * 
+     */
+    public synchronized String get() {
+        String aux = null;
+        try {
+            if (buffer.isEmpty()) {
+                this.wait();
+            }
+
+            aux = buffer.remove(0);
+            this.notifyAll();
+
+        } catch (InterruptedException ex) {
+            Logger.getLogger(Buffer.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        System.out.println("String: \"" + aux + "\" consumida");
+        return aux;
+    }
 }

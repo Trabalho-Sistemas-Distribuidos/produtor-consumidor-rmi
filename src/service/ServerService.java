@@ -8,56 +8,37 @@ import java.util.ArrayList;
 import java.util.Formatter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import util.Constants;
+import util.*;
 
 /**
  * Implementa os métodos de controle do Servidor
  * 
  */
 public class ServerService implements IService{
-    private ArrayList<String> buffer;
+    private Buffer buffer;
     private ArrayList<IListener> clients;
-    private File[] printerFiles;
-    private int bufferSize;
+    private PrinterManager printerOut;
     
     public ServerService() {
-        bufferSize = Constants.BUFFER_SIZE; // Enunciado do trabalho buffer de tamanho 3
-        printerFiles = new File[2]; // Enunciado do trabalho 2 impressoras
+        buffer = new Buffer();
         clients = new ArrayList<>();
-        buffer = new ArrayList<>();
-        for (int i = 0; i < printerFiles.length; i++) {
-            String path = "printers" + File.separator + "printer" + i + ".txt";
-            printerFiles[i] = new File(path);
-        }
+        printerOut = new PrinterManager();
     }
     
     @Override
     public void addClient(IListener cliente) throws RemoteException {
         if(clients.size() < 5){
             clients.add(cliente);
+            System.out.println("Cliente #" + clients.size() + " conectado");
         }else{
-            throw new RemoteException("Servidor está cheio");
+            throw new RemoteException("Falha de conexão: servidor está cheio");
         }
     }
 
     @Override
     public void printRequest(String print) throws RemoteException {
-        for(File printerFile : printerFiles){
-            try {
-                Formatter printer = new Formatter(printerFile);
-            } catch (FileNotFoundException ex) {
-                printerFile.getParentFile().mkdirs(); 
-                try {
-                    printerFile.createNewFile();
-                } catch (IOException ex1) {
-                    Logger.getLogger(ServerService.class.getName())
-                        .log(Level.SEVERE, null, ex1);
-                }
-            } finally {
-                // TODO escolher impressora e imprimir de acordo com
-                // o problema produtor-consumidor
-            }
-        }
+        buffer.put(print);
+        printerOut.print(print);
     }
     
 }
