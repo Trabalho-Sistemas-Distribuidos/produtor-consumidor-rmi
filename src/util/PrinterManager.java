@@ -46,7 +46,8 @@ public class PrinterManager {
             try {
                 this.wait();
             } catch (InterruptedException ex) {
-                Logger.getLogger(PrinterManager.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(PrinterManager.class.getName())
+                        .log(Level.SEVERE, null, ex);
             }
         }else{
             int index = availablePrinterIndex--;

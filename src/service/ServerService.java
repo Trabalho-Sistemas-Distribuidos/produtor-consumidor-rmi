@@ -15,15 +15,9 @@ import util.*;
  * 
  */
 public class ServerService implements IService{
-    private Buffer buffer;
-    private ArrayList<IListener> clients;
-    private PrinterManager printerOut;
-    
-    public ServerService() {
-        buffer = new Buffer();
-        clients = new ArrayList<>();
-        printerOut = new PrinterManager();
-    }
+    private Buffer buffer = new Buffer();
+    private ArrayList<IListener> clients = new ArrayList<>();
+    private PrinterManager printerOut = new PrinterManager();
     
     @Override
     public void addClient(IListener cliente) throws RemoteException {

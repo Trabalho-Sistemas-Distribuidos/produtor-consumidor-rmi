@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class Buffer {
+public class Buffer{
     static private ArrayList<String> buffer;
     
     /** Inicializa o buffer do produtor/consumidor com 
