@@ -38,8 +38,10 @@ public class PrinterManager {
         }
     }
     
-    /** Imprime se há impressoras disponíveis
-     * @param s é a string a ser imprimida
+    /**
+     * Começa o processo de impressão
+     * 
+     * @param s string a ser imprimida pelo processo
      */
     public void print(String s) {
         PrintProcess p = new PrintProcess(s);
@@ -47,9 +49,13 @@ public class PrinterManager {
         t.start();
     }
     
+    /** Classe que representa um processo de impressão */
     public class PrintProcess implements Runnable{
         private String printableStr;
         
+        /** Construtor da classe 
+         * @param printableStr é a string a ser imprimida
+         */
         public PrintProcess(String printableStr){
             this.printableStr = printableStr;
         }
@@ -64,6 +70,10 @@ public class PrinterManager {
             }
         }
 
+        /** 
+         * Imprime se há impressoras disponíveis
+         * @param s é a string a ser imprimida
+         */
         private synchronized void attemptPrint(String s) throws InterruptedException {
             if(availablePrinterIndex < Constants.PRINTERS_SIZE){
                 int index = availablePrinterIndex++;
