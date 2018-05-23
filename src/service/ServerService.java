@@ -34,7 +34,7 @@ public class ServerService implements IService{
         buffer.put(print);
         printerOut.print(print);
         String str = buffer.get();
-        System.out.println("String: " + str + "foi consumida.");
+        System.out.println("String: " + str + " foi consumida.");
     }
     
 }

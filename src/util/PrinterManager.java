@@ -19,7 +19,7 @@ public class PrinterManager {
     /** Inicializa as impressoras e o contador de disponíveis */
     public PrinterManager(){
         printers = new Formatter[Constants.PRINTERS_SIZE];
-        availablePrinterIndex = Constants.PRINTERS_SIZE - 1;
+        availablePrinterIndex = 0;
         
         for (int i = 0; i < printers.length; i++) {
             String path = "printers" + File.separator + "printer" + i + ".txt";
@@ -41,21 +41,40 @@ public class PrinterManager {
     /** Imprime se há impressoras disponíveis
      * @param s é a string a ser imprimida
      */
-    public synchronized void print(String s) {
-        if(availablePrinterIndex == -1){
+    public void print(String s) {
+        PrintProcess p = new PrintProcess(s);
+        Thread t = new Thread(p);
+        t.start();
+    }
+    
+    public class PrintProcess implements Runnable{
+        private String printableStr;
+        
+        public PrintProcess(String printableStr){
+            this.printableStr = printableStr;
+        }
+        
+        @Override
+        public void run() {
             try {
-                this.wait();
+                attemptPrint(printableStr);
             } catch (InterruptedException ex) {
                 Logger.getLogger(PrinterManager.class.getName())
                         .log(Level.SEVERE, null, ex);
             }
-        }else{
-            int index = availablePrinterIndex--;
-            printers[index].format(s + "\n");
-            printers[index].flush();
-            availablePrinterIndex++;
-            this.notifyAll();
+        }
+
+        private synchronized void attemptPrint(String s) throws InterruptedException {
+            if(availablePrinterIndex < Constants.PRINTERS_SIZE){
+                int index = availablePrinterIndex++;
+                printers[index].format(s + "\r\n");
+                printers[index].flush();
+                Thread.sleep(3000); //adicionado o delay para ver o paralelismo
+                availablePrinterIndex--;
+                this.notifyAll();
+            }else{
+                this.wait();
+            }
         }
     }
-    
 }
