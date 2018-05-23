@@ -22,7 +22,7 @@ public interface IService extends Remote {
      * caso contrário o cliente fica em espera
      * 
      * @param print é a String a ser impressa no arquivo 
-     *      printer1 ou printer2 pelo servidor
+     *      por uma das impressoras do servidor
      * 
      * @throws RemoteException
      */

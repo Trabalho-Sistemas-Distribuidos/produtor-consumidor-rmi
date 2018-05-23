@@ -7,7 +7,8 @@ import java.util.logging.Logger;
 public class Buffer{
     static private ArrayList<String> buffer;
     
-    /** Inicializa o buffer do produtor/consumidor com 
+    /** 
+     * Inicializa o buffer do produtor/consumidor com 
      * {@link #Constants.BUFFER_SIZE }
      */
     public Buffer(){

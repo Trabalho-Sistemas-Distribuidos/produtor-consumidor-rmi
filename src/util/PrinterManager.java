@@ -39,24 +39,25 @@ public class PrinterManager {
     }
     
     /**
-     * Começa o processo de impressão
+     * Começa a thread de impressão
      * 
-     * @param s string a ser imprimida pelo processo
+     * @param s string a ser imprimida pela thread
      */
     public void print(String s) {
-        PrintProcess p = new PrintProcess(s);
+        PrintThread p = new PrintThread(s);
         Thread t = new Thread(p);
         t.start();
     }
     
-    /** Classe que representa um processo de impressão */
-    public class PrintProcess implements Runnable{
+    /** Classe que representa uma thread de impressão */
+    public class PrintThread implements Runnable{
         private String printableStr;
         
-        /** Construtor da classe 
+        /** 
+         * Construtor da classe 
          * @param printableStr é a string a ser imprimida
          */
-        public PrintProcess(String printableStr){
+        public PrintThread(String printableStr){
             this.printableStr = printableStr;
         }
         
