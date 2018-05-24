@@ -32,8 +32,8 @@ public class ServerService implements IService{
     @Override
     public void printRequest(String print) throws RemoteException {
         buffer.put(print);
-        printerOut.print(print);
         String str = buffer.get();
+        printerOut.print(str);
         System.out.println("String: " + str + " foi consumida.");
     }
     

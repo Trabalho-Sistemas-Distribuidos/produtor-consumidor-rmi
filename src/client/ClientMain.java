@@ -22,7 +22,7 @@ public class ClientMain implements IListener{
                      (IService) registry.lookup(Constants.SERVICE_NAME);
              remoteService.addClient(stub);
 
-             String print = "Teste 5";
+             String print = "Teste x5";
              remoteService.printRequest(print);
          } catch (Exception e) {
              e.printStackTrace();
