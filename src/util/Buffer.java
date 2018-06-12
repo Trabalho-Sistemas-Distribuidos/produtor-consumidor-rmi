@@ -29,7 +29,7 @@ public class Buffer{
             }
 
             buffer.add(str);
-            this.notifyAll();
+            this.notify();
 
             System.out.println("String: \"" + str + "\" produzida");
         } catch (InterruptedException ex) {
@@ -52,7 +52,8 @@ public class Buffer{
             }
 
             aux = buffer.remove(0);
-            this.notifyAll();
+            
+            this.notify();
 
         } catch (InterruptedException ex) {
             Logger.getLogger(Buffer.class.getName()).log(Level.SEVERE, null, ex);
