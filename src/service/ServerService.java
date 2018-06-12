@@ -17,7 +17,7 @@ import util.*;
 public class ServerService implements IService{
     private Buffer buffer = new Buffer();
     private ArrayList<IListener> clients = new ArrayList<>();
-    private PrinterManager printerOut = new PrinterManager();
+    private PrinterManager printerOut = new PrinterManager(buffer);
     
     @Override
     public void addClient(IListener cliente) throws RemoteException {
@@ -32,9 +32,7 @@ public class ServerService implements IService{
     @Override
     public void printRequest(String print) throws RemoteException {
         buffer.put(print);
-        printerOut.print(print);
-        String str = buffer.get();
-        System.out.println("String: " + str + " foi consumida.");
+        System.out.println("String: " + print + " será impressa em breve.");
     }
     
 }

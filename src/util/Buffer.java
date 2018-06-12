@@ -59,4 +59,8 @@ public class Buffer{
         }
         return aux;
     }
+    
+    public synchronized int getSize(){
+        return buffer.size();
+    }
 }

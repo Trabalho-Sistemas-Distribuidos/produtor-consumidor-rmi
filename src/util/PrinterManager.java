@@ -14,12 +14,14 @@ import service.ServerService;
  */
 public class PrinterManager {
     private Formatter[] printers;
-    private int availablePrinterIndex;
+    private Buffer buffer;
     
-    /** Inicializa as impressoras e o contador de disponíveis */
-    public PrinterManager(){
-        printers = new Formatter[Constants.PRINTERS_SIZE];
-        availablePrinterIndex = 0;
+    /** Inicializa as impressoras e o contador de disponíveis
+     * @param buffer 
+     */
+    public PrinterManager(Buffer buffer){
+        this.printers = new Formatter[Constants.PRINTERS_SIZE];
+        this.buffer = buffer;
         
         for (int i = 0; i < printers.length; i++) {
             String path = "printers" + File.separator + "printer" + i + ".txt";
@@ -36,55 +38,30 @@ public class PrinterManager {
                 }
             }
         }
+        //Começar as Threads de impressão
+        PrintThread p0 = new PrintThread(printers[0]);
+        PrintThread p1 = new PrintThread(printers[1]);
+        p0.start();
+        p1.start();
     }
-    
-    /**
-     * Começa a thread de impressão
-     * 
-     * @param s string a ser imprimida pela thread
-     */
-    public void print(String s) {
-        PrintThread p = new PrintThread(s);
-        Thread t = new Thread(p);
-        t.start();
-    }
-    
-    /** Classe que representa uma thread de impressão */
-    public class PrintThread implements Runnable{
-        private String printableStr;
-        
-        /** 
-         * Construtor da classe 
-         * @param printableStr é a string a ser imprimida
-         */
-        public PrintThread(String printableStr){
-            this.printableStr = printableStr;
-        }
-        
-        @Override
-        public void run() {
-            try {
-                attemptPrint(printableStr);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(PrinterManager.class.getName())
-                        .log(Level.SEVERE, null, ex);
-            }
+
+    private class PrintThread extends Thread{
+        private final Formatter printer;
+
+        PrintThread(Formatter printer) {
+            super();
+            this.printer = printer;
         }
 
-        /** 
-         * Imprime se há impressoras disponíveis
-         * @param s é a string a ser imprimida
-         */
-        private synchronized void attemptPrint(String s) throws InterruptedException {
-            if(availablePrinterIndex < Constants.PRINTERS_SIZE){
-                int index = availablePrinterIndex++;
-                printers[index].format(s + "\r\n");
-                printers[index].flush();
-                Thread.sleep(3000); //adicionado o delay para ver o paralelismo
-                availablePrinterIndex--;
-                this.notifyAll();
-            }else{
-                this.wait();
+        @Override
+        public void run() {
+            while(true){
+                if(buffer.getSize() > 0){
+                    String s = buffer.get();
+                    printer.format(s + "\r\n");
+                    printer.flush();
+                    System.out.println("A string: " + s + " foi impressa.");
+                }
             }
         }
     }

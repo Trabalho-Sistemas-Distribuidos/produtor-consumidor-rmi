@@ -23,8 +23,8 @@ public class ServerMain {
              * e rodar o rmiregistry separadamente na pasta dos compilados:
              * AKA "build" ou "build/classes/" ou "bin/" dependendo do ambiente.
              */
-            Registry registry = 
-                    LocateRegistry.createRegistry(Constants.SERVICE_PORT);
+            Registry registry;
+            registry = LocateRegistry.createRegistry(Constants.SERVICE_PORT);
             registry.bind(Constants.SERVICE_NAME, stub);
             System.out.printf("Servico disponivel: %s%n", Constants.SERVICE_NAME);
         } catch (Exception e) {
