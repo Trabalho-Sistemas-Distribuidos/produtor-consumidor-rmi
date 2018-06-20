@@ -21,7 +21,7 @@ public class ServerService implements IService{
     
     @Override
     public void addClient(IListener cliente) throws RemoteException {
-        if(clients.size() < 5){
+        if(clients.size() < Constants.SERVER_CAPACITY){
             clients.add(cliente);
             System.out.println("Cliente #" + clients.size() + " conectado");
         }else{

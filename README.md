@@ -7,4 +7,7 @@
 `java -cp bin server.ServerMain`
 
 ## Rodar cliente
-`java -cp bin client.ClientMain`
+* `java -cp bin client.ClientMain <string>`
+<string> = string a ser impressa
+* `java -cp bin client.ClientMain`
+irá imprimir teste
