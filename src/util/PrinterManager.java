@@ -15,6 +15,7 @@ import service.ServerService;
 public class PrinterManager {
     private Formatter[] printers;
     private Buffer buffer;
+    private TimeWatch timeWatch;
     
     /** Inicializa as impressoras e o contador de disponíveis
      * @param buffer 
@@ -22,6 +23,7 @@ public class PrinterManager {
     public PrinterManager(Buffer buffer){
         this.printers = new Formatter[Constants.PRINTERS_SIZE];
         this.buffer = buffer;
+        this.timeWatch = TimeWatch.start();
         
         for (int i = 0; i < printers.length; i++) {
             String path = "printers" + File.separator + "printer" + i + ".txt";
@@ -60,7 +62,9 @@ public class PrinterManager {
                     String s = buffer.get();
                     printer.format(s + "\r\n");
                     printer.flush();
+                    long printTime = timeWatch.time();
                     System.out.println("A string: " + s + " foi impressa.");
+                    System.out.println("Tempo de execução: "+printTime+"ms.");
                 }
             }
         }
